@@ -16,4 +16,6 @@ struct Constants {
     static let mapRegion = "Map.Region"
     static let locationPin = "locationPin"
     static let photoAlbumSegueIdentifier = "PhotoAlbumSceneSegue"
+    
+    static let photoCellIdentifier = "photoCell"
 }

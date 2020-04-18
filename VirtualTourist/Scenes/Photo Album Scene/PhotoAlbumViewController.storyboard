@@ -25,24 +25,44 @@
                                 </constraints>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Uc7-aE-ejS">
-                                <rect key="frame" x="0.0" y="220.5" width="375" height="446.5"/>
+                                <rect key="frame" x="16" y="220.5" width="343" height="397.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="50p-Fu-3Ga">
-                                    <size key="itemSize" width="50" height="50"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="7" minimumInteritemSpacing="5" id="50p-Fu-3Ga">
+                                    <size key="itemSize" width="100" height="100"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="16" maxX="0.0" maxY="16"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="E7F-te-Fyq">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="E7F-te-Fyq" customClass="PhotoAlbumViewCell" customModule="VirtualTourist" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="16" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EA0-ff-jKa">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                </imageView>
+                                            </subviews>
                                         </view>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.70980392160000005" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="EA0-ff-jKa" firstAttribute="top" secondItem="E7F-te-Fyq" secondAttribute="top" id="3Fg-Gh-kJ8"/>
+                                            <constraint firstAttribute="trailing" secondItem="EA0-ff-jKa" secondAttribute="trailing" id="FQg-8D-Rol"/>
+                                            <constraint firstAttribute="bottom" secondItem="EA0-ff-jKa" secondAttribute="bottom" id="uBf-Rw-oDB"/>
+                                            <constraint firstItem="EA0-ff-jKa" firstAttribute="leading" secondItem="E7F-te-Fyq" secondAttribute="leading" id="uvX-3J-vLx"/>
+                                        </constraints>
+                                        <size key="customSize" width="100" height="100"/>
+                                        <connections>
+                                            <outlet property="photoAlbumImageView" destination="EA0-ff-jKa" id="biR-pE-uEQ"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="tby-ar-vEM" id="T2M-Lp-hK0"/>
+                                    <outlet property="delegate" destination="tby-ar-vEM" id="0Iv-mO-Sc5"/>
+                                </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Images" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dSO-q6-nZv">
                                 <rect key="frame" x="90" y="306" width="195.5" height="55"/>
@@ -60,26 +80,34 @@
                                 <state key="normal" title="New Collection">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="newCollectionButtonTapped:" destination="tby-ar-vEM" eventType="touchUpInside" id="Hu9-jj-DcF"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="SQN-g4-Vkt" firstAttribute="bottom" secondItem="gKc-Ev-ZR7" secondAttribute="bottom" id="045-7K-KpI"/>
+                            <constraint firstItem="gKc-Ev-ZR7" firstAttribute="top" secondItem="Uc7-aE-ejS" secondAttribute="bottom" id="1PZ-iZ-728"/>
                             <constraint firstItem="dSO-q6-nZv" firstAttribute="centerX" secondItem="6zS-6p-woP" secondAttribute="centerX" id="3Ix-hU-lQY"/>
                             <constraint firstItem="Ux7-bO-qDF" firstAttribute="leading" secondItem="SQN-g4-Vkt" secondAttribute="leading" id="3lf-FZ-Jhc"/>
-                            <constraint firstItem="Uc7-aE-ejS" firstAttribute="top" secondItem="Ux7-bO-qDF" secondAttribute="bottom" id="FgQ-SG-AKk"/>
-                            <constraint firstItem="Uc7-aE-ejS" firstAttribute="trailing" secondItem="SQN-g4-Vkt" secondAttribute="trailing" id="HxR-o3-LYT"/>
+                            <constraint firstItem="Uc7-aE-ejS" firstAttribute="top" secondItem="Ux7-bO-qDF" secondAttribute="bottom" id="JH8-da-E7I"/>
+                            <constraint firstItem="SQN-g4-Vkt" firstAttribute="trailing" secondItem="Uc7-aE-ejS" secondAttribute="trailing" constant="16" id="JnL-QA-aST"/>
+                            <constraint firstItem="Uc7-aE-ejS" firstAttribute="leading" secondItem="SQN-g4-Vkt" secondAttribute="leading" constant="16" id="Nlm-gA-d6H"/>
                             <constraint firstItem="dSO-q6-nZv" firstAttribute="centerY" secondItem="6zS-6p-woP" secondAttribute="centerY" id="QxP-K6-YcJ"/>
-                            <constraint firstItem="Uc7-aE-ejS" firstAttribute="leading" secondItem="SQN-g4-Vkt" secondAttribute="leading" id="SOs-Ri-p7c"/>
                             <constraint firstItem="Ux7-bO-qDF" firstAttribute="trailing" secondItem="SQN-g4-Vkt" secondAttribute="trailing" id="VWq-Tx-wsb"/>
                             <constraint firstItem="Ux7-bO-qDF" firstAttribute="top" secondItem="SQN-g4-Vkt" secondAttribute="top" id="ihz-Jp-BiB"/>
-                            <constraint firstItem="Uc7-aE-ejS" firstAttribute="bottom" secondItem="SQN-g4-Vkt" secondAttribute="bottom" id="nN0-At-l1x"/>
                             <constraint firstItem="gKc-Ev-ZR7" firstAttribute="trailing" secondItem="SQN-g4-Vkt" secondAttribute="trailing" id="t6f-9o-CLS"/>
                             <constraint firstItem="gKc-Ev-ZR7" firstAttribute="leading" secondItem="SQN-g4-Vkt" secondAttribute="leading" id="w1b-q3-o0I"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SQN-g4-Vkt"/>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="messageLabel" destination="dSO-q6-nZv" id="LYH-lQ-coq"/>
+                        <outlet property="newCollectionButton" destination="gKc-Ev-ZR7" id="wnA-7c-ouM"/>
+                        <outlet property="photoAlbumCollectionView" destination="Uc7-aE-ejS" id="MNe-SV-zHG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LiF-xE-tyY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

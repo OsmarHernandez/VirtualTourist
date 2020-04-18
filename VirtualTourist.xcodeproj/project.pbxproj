@@ -22,6 +22,8 @@
 		20C40DAE244ACFFF00B38530 /* Font Awesome 5 Brands-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = 20C40DAB244ACFFF00B38530 /* Font Awesome 5 Brands-Regular-400.otf */; };
 		20C40DAF244ACFFF00B38530 /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = 20C40DAC244ACFFF00B38530 /* Font Awesome 5 Free-Solid-900.otf */; };
 		20C40DB0244ACFFF00B38530 /* Font Awesome 5 Free-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = 20C40DAD244ACFFF00B38530 /* Font Awesome 5 Free-Regular-400.otf */; };
+		20FE1CE2244B8CC200F782FB /* PhotoAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FE1CE1244B8CC200F782FB /* PhotoAlbumViewCell.swift */; };
+		20FE1CE4244B963A00F782FB /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FE1CE3244B963A00F782FB /* UIView+Additions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		20C40DAB244ACFFF00B38530 /* Font Awesome 5 Brands-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Font Awesome 5 Brands-Regular-400.otf"; path = "../../../../../../../../../Downloads/fontawesome-free-5.13.0-desktop/otfs/Font Awesome 5 Brands-Regular-400.otf"; sourceTree = "<group>"; };
 		20C40DAC244ACFFF00B38530 /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Font Awesome 5 Free-Solid-900.otf"; path = "../../../../../../../../../Downloads/fontawesome-free-5.13.0-desktop/otfs/Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
 		20C40DAD244ACFFF00B38530 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Font Awesome 5 Free-Regular-400.otf"; path = "../../../../../../../../../Downloads/fontawesome-free-5.13.0-desktop/otfs/Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
+		20FE1CE1244B8CC200F782FB /* PhotoAlbumViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewCell.swift; sourceTree = "<group>"; };
+		20FE1CE3244B963A00F782FB /* UIView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				20C21A18244A348900C79542 /* PhotoAlbumViewController.storyboard */,
+				20FE1CE1244B8CC200F782FB /* PhotoAlbumViewCell.swift */,
 				20B75E022448DE2A00FCB9B9 /* PhotoAlbumViewController.swift */,
 			);
 			path = "Photo Album Scene";
@@ -160,6 +165,7 @@
 			children = (
 				20C21A2C244A71DD00C79542 /* MKCoordinateRegion+Additions.swift */,
 				20C21A2E244A86BE00C79542 /* NSNotification.Name+Additions.swift */,
+				20FE1CE3244B963A00F782FB /* UIView+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -257,7 +263,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20FE1CE4244B963A00F782FB /* UIView+Additions.swift in Sources */,
 				2006AF6E2448AFEC00A0212A /* TravelLocationMapViewController.swift in Sources */,
+				20FE1CE2244B8CC200F782FB /* PhotoAlbumViewCell.swift in Sources */,
 				20C21A1E244A3BEA00C79542 /* PhotoAlbum.swift in Sources */,
 				2006AF6C2448AFEC00A0212A /* AppDelegate.swift in Sources */,
 				20C21A1B244A3B3000C79542 /* Location.swift in Sources */,
