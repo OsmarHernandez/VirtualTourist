@@ -33,9 +33,6 @@ class TravelLocationMapViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let coordinate = mapView.selectedAnnotations.first?.coordinate {
-            mapView.setCenter(coordinate, animated: true)
-        }
         mapView.deselectAnnotation(mapView.selectedAnnotations.first, animated: true)
     }
     
@@ -46,7 +43,7 @@ class TravelLocationMapViewController: UIViewController {
         
         if sender.state == .began {
             let touchPoint = sender.location(in: mapView)
-            addAnnotation(touchPoint)
+            addAnnotation(mapView, point: touchPoint)
         } else if sender.state == .ended {
             print("Ended")
         }
@@ -59,15 +56,6 @@ class TravelLocationMapViewController: UIViewController {
         if !dragStatus {
             mapView.deselectAnnotation(mapView.selectedAnnotations.first, animated: true)
         }
-    }
-    
-    private func addAnnotation(_ point: CGPoint) {
-        let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
-        
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        
-        mapView.addAnnotation(annotation)
     }
     
     // MARK: Helpers
@@ -87,6 +75,13 @@ class TravelLocationMapViewController: UIViewController {
                                                name: NSNotification.Name.willEnterForeground, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(saveMapRegion),
                                                name: NSNotification.Name.didEnterBackground, object: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let sender = sender as? MKAnnotationView else { return }
+        
+        let photoAlbumVC = segue.destination as! PhotoAlbumViewController
+        photoAlbumVC.coordinate = sender.annotation?.coordinate
     }
     
     // TODO: Persist Pins
@@ -118,13 +113,13 @@ extension TravelLocationMapViewController: MKMapViewDelegate {
         if dragStatus {
             view.isDraggable = true
         } else {
-            performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: nil)
+            performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: view)
         }
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
         if newState == .ending {
-            performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: nil)
+            performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: view)
         }
     }
 }

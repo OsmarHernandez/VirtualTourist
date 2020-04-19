@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VirtualTourist/Scenes/Travel Location Map Scene/TravelLocationMapViewController.swift"
-            timestampString = "608933972.488256"
+            timestampString = "608954672.348065"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
             landmarkName = "longPressOnMapView(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VirtualTourist/Scenes/Travel Location Map Scene/TravelLocationMapViewController.swift"
-            timestampString = "608933972.488349"
+            timestampString = "608954672.348169"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131">
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "TravelLocationMapViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -56,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VirtualTourist/Scenes/Photo Album Scene/PhotoAlbumViewController.swift"
-            timestampString = "608933972.488427"
+            timestampString = "608954672.348248"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "73"
@@ -72,13 +74,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VirtualTourist/Scenes/Photo Album Scene/PhotoAlbumViewController.swift"
-            timestampString = "608933972.4885091"
+            timestampString = "608954672.34875"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "newCollectionButtonTapped(_:)"
-            landmarkType = "7">
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "PhotoAlbumViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -87,29 +89,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VirtualTourist/Scenes/Photo Album Scene/PhotoAlbumViewController.swift"
-            timestampString = "608933972.48858"
+            filePath = "VirtualTourist/Extensions/UIView+Additions.swift"
+            timestampString = "608939708.174127"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "setupUIWithAnimations(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VirtualTourist/Scenes/Photo Album Scene/PhotoAlbumViewController.swift"
-            timestampString = "608933972.4886481"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "hide()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

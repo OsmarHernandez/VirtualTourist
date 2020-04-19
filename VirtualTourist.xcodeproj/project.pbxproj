@@ -12,6 +12,7 @@
 		2006AF712448AFEC00A0212A /* TravelLocationMapViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2006AF6F2448AFEC00A0212A /* TravelLocationMapViewController.storyboard */; };
 		2006AF732448AFED00A0212A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2006AF722448AFED00A0212A /* Assets.xcassets */; };
 		2006AF762448AFED00A0212A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2006AF742448AFED00A0212A /* LaunchScreen.storyboard */; };
+		20B3DB99244BE51800789052 /* MKmapViewDelegate+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B3DB98244BE51800789052 /* MKmapViewDelegate+Additions.swift */; };
 		20B75E032448DE2A00FCB9B9 /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B75E022448DE2A00FCB9B9 /* PhotoAlbumViewController.swift */; };
 		20C21A19244A348900C79542 /* PhotoAlbumViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20C21A18244A348900C79542 /* PhotoAlbumViewController.storyboard */; };
 		20C21A1B244A3B3000C79542 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C21A1A244A3B3000C79542 /* Location.swift */; };
@@ -23,7 +24,6 @@
 		20C40DAF244ACFFF00B38530 /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = 20C40DAC244ACFFF00B38530 /* Font Awesome 5 Free-Solid-900.otf */; };
 		20C40DB0244ACFFF00B38530 /* Font Awesome 5 Free-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = 20C40DAD244ACFFF00B38530 /* Font Awesome 5 Free-Regular-400.otf */; };
 		20FE1CE2244B8CC200F782FB /* PhotoAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FE1CE1244B8CC200F782FB /* PhotoAlbumViewCell.swift */; };
-		20FE1CE4244B963A00F782FB /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FE1CE3244B963A00F782FB /* UIView+Additions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +34,7 @@
 		2006AF722448AFED00A0212A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2006AF752448AFED00A0212A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2006AF772448AFED00A0212A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		20B3DB98244BE51800789052 /* MKmapViewDelegate+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKmapViewDelegate+Additions.swift"; sourceTree = "<group>"; };
 		20B75E022448DE2A00FCB9B9 /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 		20C21A18244A348900C79542 /* PhotoAlbumViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PhotoAlbumViewController.storyboard; sourceTree = "<group>"; };
 		20C21A1A244A3B3000C79542 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -45,7 +46,6 @@
 		20C40DAC244ACFFF00B38530 /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Font Awesome 5 Free-Solid-900.otf"; path = "../../../../../../../../../Downloads/fontawesome-free-5.13.0-desktop/otfs/Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
 		20C40DAD244ACFFF00B38530 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Font Awesome 5 Free-Regular-400.otf"; path = "../../../../../../../../../Downloads/fontawesome-free-5.13.0-desktop/otfs/Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
 		20FE1CE1244B8CC200F782FB /* PhotoAlbumViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewCell.swift; sourceTree = "<group>"; };
-		20FE1CE3244B963A00F782FB /* UIView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,7 +165,7 @@
 			children = (
 				20C21A2C244A71DD00C79542 /* MKCoordinateRegion+Additions.swift */,
 				20C21A2E244A86BE00C79542 /* NSNotification.Name+Additions.swift */,
-				20FE1CE3244B963A00F782FB /* UIView+Additions.swift */,
+				20B3DB98244BE51800789052 /* MKmapViewDelegate+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -263,7 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20FE1CE4244B963A00F782FB /* UIView+Additions.swift in Sources */,
+				20B3DB99244BE51800789052 /* MKmapViewDelegate+Additions.swift in Sources */,
 				2006AF6E2448AFEC00A0212A /* TravelLocationMapViewController.swift in Sources */,
 				20FE1CE2244B8CC200F782FB /* PhotoAlbumViewCell.swift in Sources */,
 				20C21A1E244A3BEA00C79542 /* PhotoAlbum.swift in Sources */,
