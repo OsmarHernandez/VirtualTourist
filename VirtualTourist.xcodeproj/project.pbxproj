@@ -12,7 +12,9 @@
 		2006AF712448AFEC00A0212A /* TravelLocationMapViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2006AF6F2448AFEC00A0212A /* TravelLocationMapViewController.storyboard */; };
 		2006AF732448AFED00A0212A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2006AF722448AFED00A0212A /* Assets.xcassets */; };
 		2006AF762448AFED00A0212A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2006AF742448AFED00A0212A /* LaunchScreen.storyboard */; };
+		207E712D244E199F00FE8A8C /* PhotoAlbumDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207E712C244E199F00FE8A8C /* PhotoAlbumDataSource.swift */; };
 		20B3DB99244BE51800789052 /* MKmapViewDelegate+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B3DB98244BE51800789052 /* MKmapViewDelegate+Additions.swift */; };
+		20B3DB9B244BEB5A00789052 /* FlickrClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B3DB9A244BEB5A00789052 /* FlickrClient.swift */; };
 		20B75E032448DE2A00FCB9B9 /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B75E022448DE2A00FCB9B9 /* PhotoAlbumViewController.swift */; };
 		20C21A19244A348900C79542 /* PhotoAlbumViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20C21A18244A348900C79542 /* PhotoAlbumViewController.storyboard */; };
 		20C21A1B244A3B3000C79542 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C21A1A244A3B3000C79542 /* Location.swift */; };
@@ -34,7 +36,9 @@
 		2006AF722448AFED00A0212A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2006AF752448AFED00A0212A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2006AF772448AFED00A0212A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		207E712C244E199F00FE8A8C /* PhotoAlbumDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumDataSource.swift; sourceTree = "<group>"; };
 		20B3DB98244BE51800789052 /* MKmapViewDelegate+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKmapViewDelegate+Additions.swift"; sourceTree = "<group>"; };
+		20B3DB9A244BEB5A00789052 /* FlickrClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrClient.swift; sourceTree = "<group>"; };
 		20B75E022448DE2A00FCB9B9 /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 		20C21A18244A348900C79542 /* PhotoAlbumViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PhotoAlbumViewController.storyboard; sourceTree = "<group>"; };
 		20C21A1A244A3B3000C79542 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -133,6 +137,7 @@
 				20C21A18244A348900C79542 /* PhotoAlbumViewController.storyboard */,
 				20FE1CE1244B8CC200F782FB /* PhotoAlbumViewCell.swift */,
 				20B75E022448DE2A00FCB9B9 /* PhotoAlbumViewController.swift */,
+				207E712C244E199F00FE8A8C /* PhotoAlbumDataSource.swift */,
 			);
 			path = "Photo Album Scene";
 			sourceTree = "<group>";
@@ -156,6 +161,7 @@
 		20C21A28244A439700C79542 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				20B3DB9A244BEB5A00789052 /* FlickrClient.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -267,12 +273,14 @@
 				2006AF6E2448AFEC00A0212A /* TravelLocationMapViewController.swift in Sources */,
 				20FE1CE2244B8CC200F782FB /* PhotoAlbumViewCell.swift in Sources */,
 				20C21A1E244A3BEA00C79542 /* PhotoAlbum.swift in Sources */,
+				20B3DB9B244BEB5A00789052 /* FlickrClient.swift in Sources */,
 				2006AF6C2448AFEC00A0212A /* AppDelegate.swift in Sources */,
 				20C21A1B244A3B3000C79542 /* Location.swift in Sources */,
 				20B75E032448DE2A00FCB9B9 /* PhotoAlbumViewController.swift in Sources */,
 				20C21A2D244A71DD00C79542 /* MKCoordinateRegion+Additions.swift in Sources */,
 				20C21A2A244A509800C79542 /* Constants.swift in Sources */,
 				20C21A2F244A86BE00C79542 /* NSNotification.Name+Additions.swift in Sources */,
+				207E712D244E199F00FE8A8C /* PhotoAlbumDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

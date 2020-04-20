@@ -65,7 +65,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Map" id="Dog-Bb-ejk">
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="Dog-Bb-ejk">
                         <barButtonItem key="backBarButtonItem" title="Ok" id="tRr-hL-3N2"/>
                     </navigationItem>
                     <connections>
