@@ -1,19 +1,19 @@
 //
-//  Photos.swift
+//  PhotosResponse.swift
 //  VirtualTourist
 //
-//  Created by Osmar Hernández on 20/04/20.
+//  Created by Osmar Hernández on 21/04/20.
 //  Copyright © 2020 personal. All rights reserved.
 //
 
 import Foundation
 
-struct Photos: Codable {
+struct PhotosResponse: Decodable {
     var page: Int
     var pages: Int
     var perPage: Int
-    var total: Int
-    var photo: [Photo]
+    var total: String
+    var photo: [PhotoResponse]
     
     enum CodingKeys: String, CodingKey {
         case page = "page"
@@ -22,13 +22,4 @@ struct Photos: Codable {
         case total = "total"
         case photo = "photo"
     }
-}
-
-struct PhotoAlbum: Codable {
-    var photos: Photos
-    var stat: String
-}
-
-struct PhotoStore {
-    static var results = [Photo]()
 }

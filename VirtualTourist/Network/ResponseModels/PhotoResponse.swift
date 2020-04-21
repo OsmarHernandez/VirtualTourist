@@ -1,5 +1,5 @@
 //
-//  Photo.swift
+//  PhotoResponse.swift
 //  VirtualTourist
 //
 //  Created by Osmar Hernández on 20/04/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Photo: Codable {
+struct PhotoResponse: Decodable {
     var id: String
     var owner: String
     var secret: String

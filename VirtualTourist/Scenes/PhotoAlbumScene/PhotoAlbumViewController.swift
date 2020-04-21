@@ -31,11 +31,25 @@ class PhotoAlbumViewController: UIViewController {
         
         mapView.setCenter(coordinate, animated: true)
         addAnnotation(mapView, coordinate: coordinate)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchedPhotosResult), name: NSNotification.Name.fetchedPhotos, object: nil)
     }
     
     @IBAction func newCollectionButtonTapped(_ sender: UIButton) {
-        print("Reload Data?")
         photoAlbumCollectionView.reloadData()
+    }
+    
+    @objc private func fetchedPhotosResult() {
+        if PhotoStore.results.count == 0 {
+            print("Show messageLabel")
+            PhotoStore.results.removeAll()
+        }
+        
+        photoAlbumCollectionView.reloadData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

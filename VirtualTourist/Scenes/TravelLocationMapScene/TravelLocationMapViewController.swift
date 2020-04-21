@@ -61,22 +61,6 @@ class TravelLocationMapViewController: UIViewController {
         defaults.set(mapView.region.description, forKey: Constants.mapRegion)
     }
     
-    private func handleRecentPhotosResponse(photos: Photos?, error: Error?) {
-        guard let photos = photos else {
-            print("Something went wrong: \(error?.localizedDescription ?? "N/A")")
-            return
-        }
-        
-        PhotoStore.results = photos.photo
-    }
-    
-    private func loadRecentPhotos(for coordinate: CLLocationCoordinate2D) {
-        let params = ["lat" : "\(coordinate.latitude)", "long" : "\(coordinate.longitude)", "extras" : "url_h"]
-        let url = FlickrClient.recentPhotosURL(params)
-        
-        FlickrClient.getPhotos(url, completion: handleRecentPhotosResponse(photos:error:))
-    }
-    
     private func addNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(loadMapRegion),
                                                name: NSNotification.Name.willEnterForeground, object: nil)
@@ -84,13 +68,34 @@ class TravelLocationMapViewController: UIViewController {
                                                name: NSNotification.Name.didEnterBackground, object: nil)
     }
     
+    private func fetchPhotos(from coordinate: CLLocationCoordinate2D) {
+        let additionalParams = [
+            "lat" : "\(coordinate.latitude)",
+            "lon" : "\(coordinate.longitude)",
+            "per_page" : "20",
+            "extras" : "url_h"
+        ]
+        
+        FlickrClient.getPhotos(additionalParams) { (photos, error) in
+            if let photos = photos {
+                PhotoStore.results = photos.photo
+            } else {
+                PhotoStore.results = []
+            }
+            
+            NotificationCenter.default.post(name: NSNotification.Name.fetchedPhotos, object: nil)
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let sender = sender as? MKAnnotationView else { return }
+        guard let sender = sender as? MKAnnotationView,
+            let coordinate = sender.annotation?.coordinate else { return }
         
-        loadRecentPhotos(for: sender.annotation!.coordinate)
+        fetchPhotos(from: coordinate)
         
-        let photoAlbumVC = segue.destination as! PhotoAlbumViewController
-        photoAlbumVC.coordinate = sender.annotation?.coordinate
+        if let photoAlbumVC = segue.destination as? PhotoAlbumViewController {
+            photoAlbumVC.coordinate = coordinate
+        }
     }
     
     // TODO: Persist Pins

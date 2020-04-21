@@ -16,4 +16,8 @@ extension NSNotification.Name {
     static var willEnterForeground: NSNotification.Name {
         return NSNotification.Name("Application.WillEnterForeground")
     }
+    
+    static var fetchedPhotos: NSNotification.Name {
+        return NSNotification.Name("NetworkRequest.GetPhotos")
+    }
 }
