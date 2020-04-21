@@ -34,7 +34,8 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     @IBAction func newCollectionButtonTapped(_ sender: UIButton) {
-        
+        print("Reload Data?")
+        photoAlbumCollectionView.reloadData()
     }
 }
 

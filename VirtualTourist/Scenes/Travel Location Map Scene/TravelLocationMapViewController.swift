@@ -10,20 +10,15 @@ import MapKit
 
 class TravelLocationMapViewController: UIViewController {
     
-    // MARK: IBOutlets
-    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var dragStatusLabel: UILabel!
     
-    // MARK: Properties
     private var dragStatus: Bool!
     
     private var region: MKCoordinateRegion? {
         guard let dictionary = defaults.value(forKey: Constants.mapRegion) as? [String : Any] else { return nil }
         return MKCoordinateRegion(dictionary)
     }
-    
-    // MARK: Initial Config
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,8 +30,6 @@ class TravelLocationMapViewController: UIViewController {
         super.viewDidAppear(animated)
         mapView.deselectAnnotation(mapView.selectedAnnotations.first, animated: true)
     }
-    
-    // MARK: IBActions
     
     @IBAction func longPressOnMapView(_ sender: UILongPressGestureRecognizer) {
         sender.minimumPressDuration = 0.8
@@ -58,8 +51,6 @@ class TravelLocationMapViewController: UIViewController {
         }
     }
     
-    // MARK: Helpers
-    
     @objc func loadMapRegion() {
         if let region = region {
             mapView.region = region
@@ -68,6 +59,22 @@ class TravelLocationMapViewController: UIViewController {
     
     @objc func saveMapRegion() {
         defaults.set(mapView.region.description, forKey: Constants.mapRegion)
+    }
+    
+    private func handleRecentPhotosResponse(photos: Photos?, error: Error?) {
+        guard let photos = photos else {
+            print("Something went wrong: \(error?.localizedDescription ?? "N/A")")
+            return
+        }
+        
+        PhotoStore.results = photos.photo
+    }
+    
+    private func loadRecentPhotos(for coordinate: CLLocationCoordinate2D) {
+        let params = ["lat" : "\(coordinate.latitude)", "long" : "\(coordinate.longitude)", "extras" : "url_h"]
+        let url = FlickrClient.recentPhotosURL(params)
+        
+        FlickrClient.getPhotos(url, completion: handleRecentPhotosResponse(photos:error:))
     }
     
     private func addNotificationCenter() {
@@ -80,13 +87,13 @@ class TravelLocationMapViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let sender = sender as? MKAnnotationView else { return }
         
+        loadRecentPhotos(for: sender.annotation!.coordinate)
+        
         let photoAlbumVC = segue.destination as! PhotoAlbumViewController
         photoAlbumVC.coordinate = sender.annotation?.coordinate
     }
     
     // TODO: Persist Pins
-    
-    // MARK: Deinit
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -94,9 +101,6 @@ class TravelLocationMapViewController: UIViewController {
 }
 
 extension TravelLocationMapViewController: MKMapViewDelegate {
-    
-    // MARK: Map View
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         var markerView = mapView.dequeueReusableAnnotationView(withIdentifier: Constants.locationPin) as? MKMarkerAnnotationView
         

@@ -9,12 +9,29 @@
 import UIKit
 
 class PhotoAlbumViewCell: UICollectionViewCell {
-    
-    @IBOutlet weak var photoAlbumImageView: UIImageView!
+
+    @IBOutlet weak var customImageView: UIImageView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.layer.cornerRadius = 10.0
+        updateUI(with: nil)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        updateUI(with: nil)
+    }
+    
+    func updateUI(with image: UIImage?) {
+        if let imageToDisplay = image {
+            spinner.stopAnimating()
+            customImageView.image = imageToDisplay
+        } else {
+            spinner.startAnimating()
+            customImageView.image = nil
+        }
     }
 }

@@ -17,5 +17,5 @@ struct Constants {
     static let locationPin = "locationPin"
     static let photoAlbumSegueIdentifier = "PhotoAlbumSceneSegue"
     
-    static let photoCellIdentifier = "photoCell"
+    static let photoCellIdentifier = "PhotoAlbumViewCell"
 }
