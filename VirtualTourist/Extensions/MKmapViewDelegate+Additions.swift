@@ -9,7 +9,7 @@
 import MapKit
 
 extension MKMapViewDelegate {
-    func addAnnotation(_ mapView: MKMapView, point: CGPoint? = nil, coordinate: CLLocationCoordinate2D? = nil) {
+    @discardableResult func addAnnotation(_ mapView: MKMapView, point: CGPoint? = nil, coordinate: CLLocationCoordinate2D? = nil) -> CLLocationCoordinate2D  {
         var coordinate = coordinate
         
         if let point = point {
@@ -20,5 +20,7 @@ extension MKMapViewDelegate {
         annotation.coordinate = coordinate!
         
         mapView.addAnnotation(annotation)
+        
+        return annotation.coordinate
     }
 }

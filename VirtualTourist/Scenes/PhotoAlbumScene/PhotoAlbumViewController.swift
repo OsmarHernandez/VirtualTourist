@@ -17,6 +17,7 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var newCollectionButton: UIButton!
     @IBOutlet weak var photoAlbumCollectionView: UICollectionView!
+    @IBOutlet weak var messageLabelHeightConstraint: NSLayoutConstraint!
     
     // MARK: Properties
     var coordinate: CLLocationCoordinate2D!
@@ -40,12 +41,25 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     @objc private func fetchedPhotosResult() {
-        if PhotoStore.results.count == 0 {
-            print("Show messageLabel")
+        let messageLabelHeight: CGFloat = PhotoStore.results.isEmpty ? 80.0 : 0.0
+        let messageLabelAlpha: CGFloat = PhotoStore.results.isEmpty ? 1.0 : 0.0
+        let collectionViewAlpha: CGFloat = PhotoStore.results.isEmpty ? 0.0 : 1.0
+        
+        updateUIWithAnimation(messageLabelHeight, collectionViewAlpha: collectionViewAlpha, messageLabelAlpha: messageLabelAlpha)
+        
+        if PhotoStore.results.isEmpty {
             PhotoStore.results.removeAll()
         }
         
         photoAlbumCollectionView.reloadData()
+    }
+    
+    private func updateUIWithAnimation(_ height: CGFloat, collectionViewAlpha: CGFloat, messageLabelAlpha: CGFloat) {
+        UIView.animate(withDuration: 0.8) {
+            self.messageLabelHeightConstraint.constant = height
+            self.messageLabel.alpha = messageLabelAlpha
+            self.photoAlbumCollectionView.alpha = collectionViewAlpha
+        }
     }
     
     deinit {

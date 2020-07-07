@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="afr-Yi-r2h">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Font Awesome 5 Free-Solid-900.otf">
+            <string>FontAwesome5Free-Solid</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Map View-->
+        <scene sceneID="1l0-ka-0bZ">
+            <objects>
+                <viewController title="Map View" id="ziz-nw-nJQ" customClass="TravelLocationMapViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sv0-Xb-E4l">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" rotateEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eea-PB-CfR">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outlet property="delegate" destination="ziz-nw-nJQ" id="WET-vN-ihs"/>
+                                    <outletCollection property="gestureRecognizers" destination="bWw-7q-8h4" appends="YES" id="BNi-dg-Dqd"/>
+                                </connections>
+                            </mapView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9q7-li-bEI">
+                                <rect key="frame" x="285" y="575" width="74" height="72"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dragg Off" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLW-Ub-Yjq">
+                                        <rect key="frame" x="0.0" y="0.0" width="74" height="22"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIa-PN-f1B">
+                                        <rect key="frame" x="22" y="30" width="30" height="42"/>
+                                        <fontDescription key="fontDescription" name="FontAwesome5Free-Solid" family="Font Awesome 5 Free" pointSize="30"/>
+                                        <state key="normal" title="">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.70980392160000005" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="dragButtonTapped:" destination="ziz-nw-nJQ" eventType="touchUpInside" id="v5n-yX-vpc"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="eea-PB-CfR" firstAttribute="leading" secondItem="aqQ-jH-0Wp" secondAttribute="leading" id="5ph-aQ-KWt"/>
+                            <constraint firstItem="eea-PB-CfR" firstAttribute="top" secondItem="aqQ-jH-0Wp" secondAttribute="top" id="Zld-YK-RmB"/>
+                            <constraint firstItem="aqQ-jH-0Wp" firstAttribute="trailing" secondItem="9q7-li-bEI" secondAttribute="trailing" constant="16" id="cHT-cN-Zpq"/>
+                            <constraint firstItem="aqQ-jH-0Wp" firstAttribute="bottom" secondItem="9q7-li-bEI" secondAttribute="bottom" constant="20" id="dT1-RH-JnN"/>
+                            <constraint firstItem="aqQ-jH-0Wp" firstAttribute="trailing" secondItem="eea-PB-CfR" secondAttribute="trailing" id="fLL-bW-Xt8"/>
+                            <constraint firstItem="aqQ-jH-0Wp" firstAttribute="bottom" secondItem="eea-PB-CfR" secondAttribute="bottom" id="tW8-lG-8SH"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="aqQ-jH-0Wp"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="8Mw-y7-bww">
+                        <barButtonItem key="backBarButtonItem" title="Ok" id="W1U-Oz-MaA"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="dragStatusLabel" destination="LLW-Ub-Yjq" id="Rio-WO-sAa"/>
+                        <outlet property="mapView" destination="eea-PB-CfR" id="sUt-3u-MCj"/>
+                        <segue destination="MAu-96-n2H" kind="show" identifier="PhotoAlbumSceneSegue" id="6E5-1S-Nci"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TE1-CI-vxo" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="bWw-7q-8h4">
+                    <connections>
+                        <action selector="longPressOnMapView:" destination="ziz-nw-nJQ" id="os0-Fe-N4n"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1076" y="133.5832083958021"/>
+        </scene>
+        <!--PhotoAlbumViewController-->
+        <scene sceneID="kbV-Zg-gH4">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PhotoAlbumViewController" id="MAu-96-n2H" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="02f-0p-7p1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1813" y="133"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ggW-Ks-FD7">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="afr-Yi-r2h" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ekM-ub-Clc">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="18"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="30"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ziz-nw-nJQ" kind="relationship" relationship="rootViewController" id="WtS-Fj-Gjg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L7Q-Bg-lsd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="166" y="134"/>
+        </scene>
+    </scenes>
+</document>

@@ -14,6 +14,7 @@ class TravelLocationMapViewController: UIViewController {
     @IBOutlet weak var dragStatusLabel: UILabel!
     
     private var dragStatus: Bool!
+    private var pin: Pin!
     
     private var region: MKCoordinateRegion? {
         guard let dictionary = defaults.value(forKey: Constants.mapRegion) as? [String : Any] else { return nil }
@@ -34,11 +35,16 @@ class TravelLocationMapViewController: UIViewController {
     @IBAction func longPressOnMapView(_ sender: UILongPressGestureRecognizer) {
         sender.minimumPressDuration = 0.8
         
+        let touchPoint = sender.location(in: mapView)
+        var coordinate: CLLocationCoordinate2D!
+        
         if sender.state == .began {
-            let touchPoint = sender.location(in: mapView)
-            addAnnotation(mapView, point: touchPoint)
+            coordinate = addAnnotation(mapView, point: touchPoint)
+            let pin = Pin(lat: CGFloat(coordinate.latitude), long: CGFloat(coordinate.longitude))
+            PinStore.shared.addPin(pin)
         } else if sender.state == .ended {
-            print("Ended")
+            print("ended, PinStore total: \(PinStore.shared.total)")
+            // Save context
         }
     }
     
@@ -79,8 +85,12 @@ class TravelLocationMapViewController: UIViewController {
         FlickrClient.getPhotos(additionalParams) { (photos, error) in
             if let photos = photos {
                 PhotoStore.results = photos.photo
+                self.pin.photos = photos.photo
+                // save context
             } else {
                 PhotoStore.results = []
+                self.pin.photos = nil
+                // save context
             }
             
             NotificationCenter.default.post(name: NSNotification.Name.fetchedPhotos, object: nil)
@@ -88,17 +98,17 @@ class TravelLocationMapViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let sender = sender as? MKAnnotationView,
-            let coordinate = sender.annotation?.coordinate else { return }
+        guard let view = sender as? MKAnnotationView,
+            let coordinate = view.annotation?.coordinate else  { return }
         
-        fetchPhotos(from: coordinate)
+        if pin.photos == nil {
+            fetchPhotos(from: coordinate)
+        }
         
         if let photoAlbumVC = segue.destination as? PhotoAlbumViewController {
             photoAlbumVC.coordinate = coordinate
         }
     }
-    
-    // TODO: Persist Pins
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -118,16 +128,20 @@ extension TravelLocationMapViewController: MKMapViewDelegate {
         return markerView
     }
     
+    // Refactor segue code
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if dragStatus {
             view.isDraggable = true
         } else {
+            pin = PinStore.shared.loadPin(CGFloat(view.annotation!.coordinate.latitude), CGFloat(view.annotation!.coordinate.longitude))
             performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: view)
         }
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
         if newState == .ending {
+            pin = PinStore.shared.loadPin(CGFloat(view.annotation!.coordinate.latitude), CGFloat(view.annotation!.coordinate.longitude))
             performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: view)
         }
     }
