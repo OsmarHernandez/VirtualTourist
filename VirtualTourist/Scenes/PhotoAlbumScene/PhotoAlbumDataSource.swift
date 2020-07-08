@@ -21,6 +21,17 @@ class PhotoAlbumDataSource: NSObject, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let photoAlbumCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.photoCellIdentifier, for: indexPath) as! PhotoAlbumViewCell
         
+        photoAlbumCell.updateUI(with: nil)
+        
+        return photoAlbumCell
+    }
+}
+
+extension PhotoAlbumDataSource: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let photoAlbumCell = cell as? PhotoAlbumViewCell else { return }
+        
         if let imagePath = PhotoStore.results[indexPath.item].urlH {
             FlickrClient.downloadImage(from: imagePath) { (data, error) in
                 guard let data = data else { return }
@@ -30,15 +41,9 @@ class PhotoAlbumDataSource: NSObject, UICollectionViewDataSource {
                 photoAlbumCell.setNeedsLayout()
             }
         }
-        
-        return photoAlbumCell
     }
-}
-
-extension PhotoAlbumDataSource: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: Update to remove from cora data and from photo album
-        
         PhotoStore.results.remove(at: indexPath.item)
         collectionView.deleteItems(at: [indexPath])
         collectionView.reloadData()

@@ -9,6 +9,11 @@
 import MapKit
 
 extension MKMapViewDelegate {
+    
+    /*
+     * use the function with the coordinate argument to draw an existing pin
+     * use the functuin wiht the point argument to draw for first time
+     */
     @discardableResult func addAnnotation(_ mapView: MKMapView, point: CGPoint? = nil, coordinate: CLLocationCoordinate2D? = nil) -> CLLocationCoordinate2D  {
         var coordinate = coordinate
         

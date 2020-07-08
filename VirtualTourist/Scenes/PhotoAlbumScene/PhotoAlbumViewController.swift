@@ -20,7 +20,7 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var messageLabelHeightConstraint: NSLayoutConstraint!
     
     // MARK: Properties
-    var coordinate: CLLocationCoordinate2D!
+    var pin: Pin!
     let photoAlbumDataSource = PhotoAlbumDataSource()
     
     // MARK: Initial Config
@@ -30,8 +30,8 @@ class PhotoAlbumViewController: UIViewController {
         photoAlbumCollectionView.delegate = photoAlbumDataSource
         photoAlbumCollectionView.dataSource = photoAlbumDataSource
         
-        mapView.setCenter(coordinate, animated: true)
-        addAnnotation(mapView, coordinate: coordinate)
+        mapView.setCenter(pin.coordinate, animated: true)
+        addAnnotation(mapView, coordinate: pin.coordinate)
         
         NotificationCenter.default.addObserver(self, selector: #selector(fetchedPhotosResult), name: NSNotification.Name.fetchedPhotos, object: nil)
     }
