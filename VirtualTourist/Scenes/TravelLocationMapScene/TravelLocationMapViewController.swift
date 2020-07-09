@@ -14,25 +14,25 @@ class TravelLocationMapViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var dragStatusLabel: UILabel!
     
-    private var dragStatus = false
-    
     private var pin: Pin!
     private var pinList = [Pin]()
     
-    var dataController: DataController!
-    
-    private var region: MKCoordinateRegion? {
-        guard let dictionary = defaults.value(forKey: Constants.mapRegion) as? [String : Any] else { return nil }
-        return MKCoordinateRegion(dictionary)
-    }
+    private let mapViewDelegate = TravelLocationMapViewDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapViewDelegate.pinControlDelegate = self
+        mapView.delegate = mapViewDelegate
+        
+        DataController.shared.loadPins() { pins in
+            self.pinList = pins
+        }
+        
         addNotificationCenter()
-        reloadPins()
         loadMapRegion()
         
-        drawPins()
+        mapViewDelegate.drawPins(pinList, inMapView: mapView)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,46 +44,23 @@ class TravelLocationMapViewController: UIViewController {
         sender.minimumPressDuration = 0.8
         
         let touchPoint = sender.location(in: mapView)
-        let coordinate = addAnnotation(mapView, point: touchPoint)
+        let coordinate = mapViewDelegate.getCoordinate(forPoin: touchPoint, inMapView: mapView)
         
         if sender.state == .ended {
-            let pin = Pin(context: dataController.viewContext)
-            pin.latitude = "\(coordinate.latitude)"
-            pin.longitude = "\(coordinate.longitude)"
-            try? dataController.viewContext.save()
+            DataController.shared.addPin(with: "\(coordinate.latitude)", and: "\(coordinate.longitude)") { createdPin in
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: createdPin)
+                }
+            }
         }
     }
     
     @IBAction func dragButtonTapped(_ sender: UIButton) {
-        dragStatus = !dragStatus
-        dragStatusLabel.text = dragStatus ? "Drag On" : "Drag Off"
+        mapViewDelegate.dragStatus = !mapViewDelegate.dragStatus
+        dragStatusLabel.text = mapViewDelegate.dragStatus ? "Drag On" : "Drag Off"
         
-        if !dragStatus {
+        if !mapViewDelegate.dragStatus {
             mapView.deselectAnnotation(mapView.selectedAnnotations.first, animated: true)
-        }
-    }
-    
-    @objc func saveMapRegion() {
-        defaults.set(mapView.region.description, forKey: Constants.mapRegion)
-    }
-    
-    private func reloadPins() {
-        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-        
-        if let result = try? dataController.viewContext.fetch(fetchRequest) {
-            pinList = result
-        }
-    }
-    
-    private func drawPins() {
-        for pin in pinList {
-            addAnnotation(mapView, coordinate: pin.coordinate)
-        }
-    }
-    
-    private func loadMapRegion() {
-        if let region = region {
-            mapView.region = region
         }
     }
     
@@ -92,59 +69,13 @@ class TravelLocationMapViewController: UIViewController {
                                                name: NSNotification.Name.didEnterBackground, object: nil)
     }
     
-    private func fetchPhotos(from coordinate: CLLocationCoordinate2D) {
-        let additionalParams = [
-            "lat" : "\(coordinate.latitude)",
-            "lon" : "\(coordinate.longitude)",
-            "per_page" : "20",
-            "extras" : "url_h"
-        ]
-        
-        FlickrClient.getPhotos(additionalParams) { (photos, error) in
-            PhotoStore.results = photos?.photo ?? []
-            //self.pin.photos = photos?.photo
-            
-            // save context
-            
-            NotificationCenter.default.post(name: NSNotification.Name.fetchedPhotos, object: nil)
-        }
-    }
-    
-    private func pin(_ latitude: String, _ longitude: String) -> Pin? {
-        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-        let predicate = NSPredicate(format: "latitude == %@ && longitude == %@", latitude, longitude)
-        fetchRequest.predicate = predicate
-        
-        let result = try! dataController.viewContext.fetch(fetchRequest)
-        return result.first
-    }
-    
-    private func pinForCoordinate(_ coordinate: CLLocationCoordinate2D) {
-        let lat = "\(coordinate.latitude)"
-        let long = "\(coordinate.longitude)"
-        
-        if let currentPin = pin(lat, long) {
-            pin = currentPin
-            performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: coordinate)
-        }
-    }
-    
-    private func updatePinWithCoordinate(_ coordinate: CLLocationCoordinate2D) {
-        if let oldPin = pin(pin.latitude!, pin.longitude!) {
-            oldPin.latitude = "\(coordinate.latitude)"
-            oldPin.longitude = "\(coordinate.longitude)"
-            try? dataController.viewContext.save()
-            performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: coordinate)
-        }
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let coordinate = sender as? CLLocationCoordinate2D else  { return }
+        guard let selectedPin = sender as? Pin else  { return }
         
-        fetchPhotos(from: coordinate)   // Change if pin has photos
+        fetchPhotos(forPin: selectedPin)   // Change if pin has photos
         
         if let photoAlbumVC = segue.destination as? PhotoAlbumViewController {
-            photoAlbumVC.pin = pin
+            photoAlbumVC.pin = selectedPin
         }
     }
     
@@ -153,37 +84,66 @@ class TravelLocationMapViewController: UIViewController {
     }
 }
 
-extension TravelLocationMapViewController: MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        var markerView = mapView.dequeueReusableAnnotationView(withIdentifier: Constants.locationPin) as? MKMarkerAnnotationView
-        
-        if markerView == nil {
-            markerView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: Constants.locationPin)
-        } else {
-            markerView!.annotation = annotation
-        }
-        
-        return markerView
+extension TravelLocationMapViewController {
+    
+    @objc func saveMapRegion() {
+        defaults.set(mapView.region.description, forKey: Constants.mapRegion)
     }
     
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if dragStatus {
-            view.isDraggable = true
-            
-            let latitude = "\(view.annotation!.coordinate.latitude)"
-            let longitude = "\(view.annotation!.coordinate.longitude)"
-            
-            pin = pin(latitude, longitude)
-        } else {
-            pinForCoordinate(view.annotation!.coordinate)
+    private func loadMapRegion() {
+        if let region = mapViewDelegate.region {
+            mapView.region = region
         }
     }
     
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
-        view.isDraggable = false
+    private func fetchPhotos(forPin pin: Pin) {
+        let additionalParams = [
+            "lat" : pin.latitude!,
+            "lon" : pin.longitude!,
+            "per_page" : "20",
+            "extras" : "url_h"
+        ]
         
-        if newState == .ending {
-            updatePinWithCoordinate(view.annotation!.coordinate)
+        FlickrClient.getPhotos(additionalParams) { (photos, error) in
+            PhotoStore.results = photos?.photo ?? []
+            NotificationCenter.default.post(name: NSNotification.Name.fetchedPhotos, object: nil)
         }
+    }
+    
+    private func selectPin(_ latitude: String, _ longitude: String) {
+        DataController.shared.getPin(for: latitude, and: longitude) { currentPin in
+            if let currentPin = currentPin {
+                self.performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: currentPin)
+            }
+        }
+    }
+    
+    private func updatePin(_ latitude: String, _ longitude: String) {
+        if let _ = pin {
+            DataController.shared.updatePin(pin, with: latitude, and: longitude) { newPin in
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: newPin)
+                }
+            }
+        }
+    }
+}
+
+extension TravelLocationMapViewController: PinControlDelegate {
+    
+    func selectedPin(inCoordinate coordinate: CLLocationCoordinate2D) {
+        if mapViewDelegate.dragStatus {
+            DataController.shared.getPin(for: "\(coordinate.latitude)", and: "\(coordinate.longitude)") { currentPin in
+                if let currentPin = currentPin {
+                    self.pin = currentPin
+                }
+            }
+        } else {
+            selectPin("\(coordinate.latitude)", "\(coordinate.longitude)")
+        }
+    }
+    
+    func updatePinLocation(forNewCoordinate coordinate: CLLocationCoordinate2D) {
+        updatePin("\(coordinate.latitude)", "\(coordinate.longitude)")
     }
 }

@@ -30,6 +30,8 @@
 		20C40DAE244ACFFF00B38530 /* Font Awesome 5 Brands-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = 20C40DAB244ACFFF00B38530 /* Font Awesome 5 Brands-Regular-400.otf */; };
 		20C40DAF244ACFFF00B38530 /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = 20C40DAC244ACFFF00B38530 /* Font Awesome 5 Free-Solid-900.otf */; };
 		20C40DB0244ACFFF00B38530 /* Font Awesome 5 Free-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = 20C40DAD244ACFFF00B38530 /* Font Awesome 5 Free-Regular-400.otf */; };
+		20CB725424B641B000332B0C /* TravelLocationMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CB725324B641B000332B0C /* TravelLocationMapViewDelegate.swift */; };
+		20CB725824B6576A00332B0C /* PinControlDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CB725724B6576A00332B0C /* PinControlDelegate.swift */; };
 		20FE1CE2244B8CC200F782FB /* PhotoAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FE1CE1244B8CC200F782FB /* PhotoAlbumViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +61,8 @@
 		20C40DAB244ACFFF00B38530 /* Font Awesome 5 Brands-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Brands-Regular-400.otf"; sourceTree = "<group>"; };
 		20C40DAC244ACFFF00B38530 /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
 		20C40DAD244ACFFF00B38530 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
+		20CB725324B641B000332B0C /* TravelLocationMapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelLocationMapViewDelegate.swift; sourceTree = "<group>"; };
+		20CB725724B6576A00332B0C /* PinControlDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinControlDelegate.swift; sourceTree = "<group>"; };
 		20FE1CE1244B8CC200F782FB /* PhotoAlbumViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,6 +161,8 @@
 			children = (
 				201E103B244FABF300EA834C /* TravelLocationMapViewController.storyboard */,
 				2006AF6D2448AFEC00A0212A /* TravelLocationMapViewController.swift */,
+				20CB725324B641B000332B0C /* TravelLocationMapViewDelegate.swift */,
+				20CB725724B6576A00332B0C /* PinControlDelegate.swift */,
 			);
 			path = TravelLocationMapScene;
 			sourceTree = "<group>";
@@ -293,12 +299,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20CB725424B641B000332B0C /* TravelLocationMapViewDelegate.swift in Sources */,
 				20B3DB99244BE51800789052 /* MKmapViewDelegate+Additions.swift in Sources */,
 				2006AF6E2448AFEC00A0212A /* TravelLocationMapViewController.swift in Sources */,
 				20FE1CE2244B8CC200F782FB /* PhotoAlbumViewCell.swift in Sources */,
 				201E1037244FA57400EA834C /* PhotosResponse.swift in Sources */,
 				206FF56524B3EB7500A223CB /* VirtualTourist.xcdatamodeld in Sources */,
 				20B3DB9B244BEB5A00789052 /* FlickrClient.swift in Sources */,
+				20CB725824B6576A00332B0C /* PinControlDelegate.swift in Sources */,
 				2006AF6C2448AFEC00A0212A /* AppDelegate.swift in Sources */,
 				207E7131244E3E6100FE8A8C /* PhotoResponse.swift in Sources */,
 				20B75E032448DE2A00FCB9B9 /* PhotoAlbumViewController.swift in Sources */,

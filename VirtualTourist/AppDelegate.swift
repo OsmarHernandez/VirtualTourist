@@ -13,15 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    let dataController = DataController(modelName: "VirtualTourist")
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        dataController.load()
-        
-        let rootViewController = window?.rootViewController as! UINavigationController
-        let travelLocationMapViewController = rootViewController.topViewController as! TravelLocationMapViewController
-        travelLocationMapViewController.dataController = dataController
         
         return true
     }
