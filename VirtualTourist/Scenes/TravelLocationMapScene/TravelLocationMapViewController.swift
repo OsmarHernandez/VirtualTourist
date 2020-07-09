@@ -25,14 +25,18 @@ class TravelLocationMapViewController: UIViewController {
         mapViewDelegate.pinControlDelegate = self
         mapView.delegate = mapViewDelegate
         
-        DataController.shared.loadPins() { pins in
-            self.pinList = pins
-        }
-        
         addNotificationCenter()
         loadMapRegion()
-        
-        mapViewDelegate.drawPins(pinList, inMapView: mapView)
+        loadPins()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if mapView.annotations.count > pinList.count {
+            print("There are more annotations than there should be, clean screen")
+            mapView.removeAnnotations(mapView.annotations)
+            loadPins()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -93,6 +97,15 @@ extension TravelLocationMapViewController {
     private func loadMapRegion() {
         if let region = mapViewDelegate.region {
             mapView.region = region
+        }
+    }
+    
+    private func loadPins() {
+        DataController.shared.loadPins() { pins in
+            self.pinList = pins
+            DispatchQueue.main.async {
+                self.mapViewDelegate.drawPins(self.pinList, inMapView: self.mapView)
+            }
         }
     }
     
