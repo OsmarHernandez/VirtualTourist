@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class PhotoAlbumViewController: UIViewController {
 
@@ -21,37 +22,52 @@ class PhotoAlbumViewController: UIViewController {
     
     // MARK: Properties
     var pin: Pin!
+    
     let photoAlbumDataSource = PhotoAlbumDataSource()
+    
+    private func setupFetchedResultsController() {
+        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+        let predicate = NSPredicate(format: "pin == %@", pin)
+        fetchRequest.predicate = predicate
+        let sortDescriptor = NSSortDescriptor(key: "id", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        photoAlbumDataSource.fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataController.shared.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        photoAlbumDataSource.fetchedResultsController.delegate = self
+        
+        do {
+            try photoAlbumDataSource.fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch couldn't be performed: \(error.localizedDescription)")
+        }
+    }
     
     // MARK: Initial Config
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupFetchedResultsController()
         
         photoAlbumCollectionView.delegate = photoAlbumDataSource
         photoAlbumCollectionView.dataSource = photoAlbumDataSource
         
         mapView.setCenter(pin.coordinate, animated: true)
         addAnnotation(mapView, coordinate: pin.coordinate)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(fetchedPhotosResult), name: NSNotification.Name.fetchedPhotos, object: nil)
     }
     
     @IBAction func newCollectionButtonTapped(_ sender: UIButton) {
         photoAlbumCollectionView.reloadData()
     }
     
-    @objc private func fetchedPhotosResult() {
-        let messageLabelHeight: CGFloat = PhotoStore.results.isEmpty ? 80.0 : 0.0
-        let messageLabelAlpha: CGFloat = PhotoStore.results.isEmpty ? 1.0 : 0.0
-        let collectionViewAlpha: CGFloat = PhotoStore.results.isEmpty ? 0.0 : 1.0
+    private func configureUI() {
+        let hasPhotos = photoAlbumDataSource.fetchedResultsController.sections![0].numberOfObjects > 0
+        
+        let messageLabelHeight: CGFloat = hasPhotos ? 0.0 : 80.0
+        let messageLabelAlpha: CGFloat = hasPhotos ? 0.0 : 1.0
+        let collectionViewAlpha: CGFloat = hasPhotos ? 1.0 : 0.0
         
         updateUIWithAnimation(messageLabelHeight, collectionViewAlpha: collectionViewAlpha, messageLabelAlpha: messageLabelAlpha)
-        
-        if PhotoStore.results.isEmpty {
-            PhotoStore.results.removeAll()
-        }
-        
-        photoAlbumCollectionView.reloadData()
     }
     
     private func updateUIWithAnimation(_ height: CGFloat, collectionViewAlpha: CGFloat, messageLabelAlpha: CGFloat) {
@@ -63,8 +79,28 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        photoAlbumDataSource.fetchedResultsController = nil
+        photoAlbumCollectionView.delegate = nil
+        photoAlbumCollectionView.dataSource = nil
     }
 }
 
 extension PhotoAlbumViewController: MKMapViewDelegate { }
+
+extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        configureUI()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            photoAlbumCollectionView.insertItems(at: [newIndexPath!])
+        case .delete:
+            photoAlbumCollectionView.deleteItems(at: [indexPath!])
+        default:
+            break
+        }
+    }
+}

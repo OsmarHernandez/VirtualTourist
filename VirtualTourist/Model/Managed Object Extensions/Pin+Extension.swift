@@ -7,7 +7,6 @@
 //
 
 import CoreLocation
-import CoreData
 
 extension Pin {
     
@@ -18,5 +17,9 @@ extension Pin {
     
     public override var description: String {
         return "lat: \(latitude!), long: \(longitude!)"
+    }
+    
+    var hasPhotos: Bool {
+        return self.photo!.count > 0
     }
 }

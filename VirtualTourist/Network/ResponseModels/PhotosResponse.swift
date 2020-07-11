@@ -13,13 +13,13 @@ struct PhotosResponse: Decodable {
     var pages: Int
     var perPage: Int
     var total: String
-    var photo: [PhotoResponse]
+    var photos: [PhotoResponse]
     
     enum CodingKeys: String, CodingKey {
         case page = "page"
         case pages = "pages"
         case perPage = "perpage"
         case total = "total"
-        case photo = "photo"
+        case photos = "photo"
     }
 }

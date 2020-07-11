@@ -7,7 +7,6 @@
 //
 
 import MapKit
-import CoreData
 
 class TravelLocationMapViewController: UIViewController {
     
@@ -76,9 +75,17 @@ class TravelLocationMapViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let selectedPin = sender as? Pin else  { return }
         
-        fetchPhotos(forPin: selectedPin)   // Change if pin has photos
+        print("3: Updated pin photos: \(String(describing: selectedPin.hasPhotos))")
+        
+        if selectedPin.hasPhotos {
+            print("Using results from Core Data")
+        } else {
+            print("Downloading data for Photos")
+            self.fetchPhotos(for: selectedPin)
+        }
         
         if let photoAlbumVC = segue.destination as? PhotoAlbumViewController {
+            print("Photos with pin for segue: \(selectedPin.photo?.count ?? 0)")
             photoAlbumVC.pin = selectedPin
         }
     }
@@ -109,24 +116,35 @@ extension TravelLocationMapViewController {
         }
     }
     
-    private func fetchPhotos(forPin pin: Pin) {
+    private func fetchPhotos(for selectedPin: Pin) {
         let additionalParams = [
-            "lat" : pin.latitude!,
-            "lon" : pin.longitude!,
+            "lat" : selectedPin.latitude!,
+            "lon" : selectedPin.longitude!,
             "per_page" : "20",
             "extras" : "url_h"
         ]
         
-        FlickrClient.getPhotos(additionalParams) { (photos, error) in
-            PhotoStore.results = photos?.photo ?? []
-            NotificationCenter.default.post(name: NSNotification.Name.fetchedPhotos, object: nil)
+        FlickrClient.getPhotos(additionalParams) { (photoResponse, error) in
+            if let photos = photoResponse?.photos {
+                for photo in photos {
+                    if photo.urlH == nil { continue }
+                    DataController.shared.addPhoto(photo, pin: selectedPin)
+                }
+            }
         }
     }
     
     private func selectPin(_ latitude: String, _ longitude: String) {
         DataController.shared.getPin(for: latitude, and: longitude) { currentPin in
-            if let currentPin = currentPin {
-                self.performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: currentPin)
+            guard let currentPin = currentPin else { return }
+            
+            if self.mapViewDelegate.dragStatus {
+                self.pin = currentPin
+                print("1: Updated pin photos: \(String(describing: self.pin.hasPhotos))")
+            } else {
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: currentPin)
+                }
             }
         }
     }
@@ -135,6 +153,7 @@ extension TravelLocationMapViewController {
         if let _ = pin {
             DataController.shared.updatePin(pin, with: latitude, and: longitude) { newPin in
                 DispatchQueue.main.async {
+                    print("2: Updated pin photos: \(String(describing: newPin.hasPhotos))")
                     self.performSegue(withIdentifier: Constants.photoAlbumSegueIdentifier, sender: newPin)
                 }
             }
@@ -144,19 +163,11 @@ extension TravelLocationMapViewController {
 
 extension TravelLocationMapViewController: PinControlDelegate {
     
-    func selectedPin(inCoordinate coordinate: CLLocationCoordinate2D) {
-        if mapViewDelegate.dragStatus {
-            DataController.shared.getPin(for: "\(coordinate.latitude)", and: "\(coordinate.longitude)") { currentPin in
-                if let currentPin = currentPin {
-                    self.pin = currentPin
-                }
-            }
-        } else {
-            selectPin("\(coordinate.latitude)", "\(coordinate.longitude)")
-        }
+    func selectedPin(in coordinate: CLLocationCoordinate2D) {
+        selectPin("\(coordinate.latitude)", "\(coordinate.longitude)")
     }
     
-    func updatePinLocation(forNewCoordinate coordinate: CLLocationCoordinate2D) {
+    func updatePinLocation(for coordinate: CLLocationCoordinate2D) {
         updatePin("\(coordinate.latitude)", "\(coordinate.longitude)")
     }
 }

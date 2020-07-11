@@ -7,15 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 class PhotoAlbumDataSource: NSObject, UICollectionViewDataSource {
     
-    // MARK: Demo Data
-    
-    var colorData = [#colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1), #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1), #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1), #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1), #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1), #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1), #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1), #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1), #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)]
+    var fetchedResultsController: NSFetchedResultsController<Photo>!
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return PhotoStore.results.count
+        return fetchedResultsController.sections?[0].numberOfObjects ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -32,21 +31,32 @@ extension PhotoAlbumDataSource: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let photoAlbumCell = cell as? PhotoAlbumViewCell else { return }
         
-        if let imagePath = PhotoStore.results[indexPath.item].urlH {
-            FlickrClient.downloadImage(from: imagePath) { (data, error) in
+        let photo = fetchedResultsController.object(at: indexPath)
+        
+        func updateUI(_ data: Data) {
+            let downloadedImage = UIImage(data: data)
+            photoAlbumCell.updateUI(with: downloadedImage)
+            photoAlbumCell.setNeedsLayout()
+        }
+        
+        if photo.hasDownloadedImage {
+            print("Existing image in Core Data")
+            updateUI(photo.imageData!)
+        } else {
+            FlickrClient.downloadImage(from: photo.imageURL!) { (data, error) in
                 guard let data = data else { return }
                 
-                let downloadedImage = UIImage(data: data)
-                photoAlbumCell.updateUI(with: downloadedImage)
-                photoAlbumCell.setNeedsLayout()
+                print("Downloading image for first time")
+                updateUI(data)
+                DataController.shared.saveImageToAssociatedPhoto(data: data, photo: photo)
             }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        PhotoStore.results.remove(at: indexPath.item)
-        collectionView.deleteItems(at: [indexPath])
-        collectionView.reloadData()
+        let photoToDelete = fetchedResultsController.object(at: indexPath)
+        DataController.shared.viewContext.delete(photoToDelete)
+        try? DataController.shared.viewContext.save()
     }
 }
 

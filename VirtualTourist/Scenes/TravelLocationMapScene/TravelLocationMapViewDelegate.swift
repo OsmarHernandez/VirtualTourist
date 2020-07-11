@@ -25,12 +25,12 @@ class TravelLocationMapViewDelegate: NSObject, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         view.isDraggable = dragStatus
         
-        pinControlDelegate.selectedPin(inCoordinate: view.annotation!.coordinate)
+        pinControlDelegate.selectedPin(in: view.annotation!.coordinate)
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
         if newState == .ending {
-            pinControlDelegate.updatePinLocation(forNewCoordinate: view.annotation!.coordinate)
+            pinControlDelegate.updatePinLocation(for: view.annotation!.coordinate)
         }
         
         view.isDraggable = false

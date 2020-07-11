@@ -11,7 +11,7 @@ import CoreLocation
 
 protocol PinControlDelegate: class {
     
-    func selectedPin(inCoordinate coordinate: CLLocationCoordinate2D)
+    func selectedPin(in coordinate: CLLocationCoordinate2D)
     
-    func updatePinLocation(forNewCoordinate coordinate: CLLocationCoordinate2D)
+    func updatePinLocation(for coordinate: CLLocationCoordinate2D)
 }
