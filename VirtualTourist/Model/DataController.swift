@@ -62,6 +62,20 @@ extension DataController {
         }
     }
     
+    func deletePhoto(_ photos: [Photo]) {
+        concurrentQueue.sync {
+            for photo in photos {
+                
+                do {
+                    viewContext.delete(photo)
+                    try viewContext.save()
+                } catch {
+                    fatalError("Unexpected error deleting photo: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
     func saveImageToAssociatedPhoto(data: Data, photo: Photo) {
         concurrentQueue.async(flags: .barrier) {
             photo.imageData = data

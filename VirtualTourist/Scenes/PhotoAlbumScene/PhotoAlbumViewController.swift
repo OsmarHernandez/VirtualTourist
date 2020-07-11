@@ -11,8 +11,6 @@ import MapKit
 import CoreData
 
 class PhotoAlbumViewController: UIViewController {
-
-    // MARK: IBOutlets
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var messageLabel: UILabel!
@@ -20,7 +18,6 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var photoAlbumCollectionView: UICollectionView!
     @IBOutlet weak var messageLabelHeightConstraint: NSLayoutConstraint!
     
-    // MARK: Properties
     var pin: Pin!
     
     let photoAlbumDataSource = PhotoAlbumDataSource()
@@ -43,7 +40,6 @@ class PhotoAlbumViewController: UIViewController {
         }
     }
     
-    // MARK: Initial Config
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,7 +53,10 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     @IBAction func newCollectionButtonTapped(_ sender: UIButton) {
-        photoAlbumCollectionView.reloadData()
+        if let photos = photoAlbumDataSource.fetchedResultsController.fetchedObjects {
+            DataController.shared.deletePhoto(photos)
+        }
+        fetchPhotos(for: pin)
     }
     
     private func configureUI() {

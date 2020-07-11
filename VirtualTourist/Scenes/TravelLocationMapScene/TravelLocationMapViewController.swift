@@ -116,24 +116,6 @@ extension TravelLocationMapViewController {
         }
     }
     
-    private func fetchPhotos(for selectedPin: Pin) {
-        let additionalParams = [
-            "lat" : selectedPin.latitude!,
-            "lon" : selectedPin.longitude!,
-            "per_page" : "20",
-            "extras" : "url_h"
-        ]
-        
-        FlickrClient.getPhotos(additionalParams) { (photoResponse, error) in
-            if let photos = photoResponse?.photos {
-                for photo in photos {
-                    if photo.urlH == nil { continue }
-                    DataController.shared.addPhoto(photo, pin: selectedPin)
-                }
-            }
-        }
-    }
-    
     private func selectPin(_ latitude: String, _ longitude: String) {
         DataController.shared.getPin(for: latitude, and: longitude) { currentPin in
             guard let currentPin = currentPin else { return }
