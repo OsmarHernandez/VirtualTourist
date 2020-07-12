@@ -50,6 +50,8 @@ class PhotoAlbumViewController: UIViewController {
         
         mapView.setCenter(pin.coordinate, animated: true)
         addAnnotation(mapView, coordinate: pin.coordinate)
+        
+        configureUI()
     }
     
     @IBAction func newCollectionButtonTapped(_ sender: UIButton) {
