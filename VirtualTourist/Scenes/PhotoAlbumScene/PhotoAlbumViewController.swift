@@ -81,6 +81,7 @@ class PhotoAlbumViewController: UIViewController {
         photoAlbumDataSource.fetchedResultsController = nil
         photoAlbumCollectionView.delegate = nil
         photoAlbumCollectionView.dataSource = nil
+        Constants.pages = 1
     }
 }
 

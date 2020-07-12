@@ -14,12 +14,14 @@ extension UIViewController {
         let additionalParams = Constants.additionalParameters(selectedPin.latitude!, selectedPin.longitude!)
         
         FlickrClient.getPhotos(additionalParams) { (photoResponse, error) in
-            if let photos = photoResponse?.photos {
-                for photo in photos {
-                    if photo.urlH == nil { continue }
-                    DataController.shared.addPhoto(photo, pin: selectedPin)
-                }
+            guard let photoResponse = photoResponse else { return }
+            
+            for photo in photoResponse.photos{
+                if photo.urlH == nil { continue }
+                DataController.shared.addPhoto(photo, pin: selectedPin)
             }
+            
+            Constants.pages = photoResponse.pages
         }
     }
 }

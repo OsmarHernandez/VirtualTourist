@@ -19,19 +19,17 @@ struct Constants {
     
     static let photoCellIdentifier = "PhotoAlbumViewCell"
     
+    static var pages: Int = 1
+    
     static var additionalParameters: (String, String) -> [String : String] = { latitude, longitude in
+        let page = Int.random(in: 1...pages)
+        
         return [
             "lat" : latitude,
             "lon" : longitude,
             "per_page" : "20",
-            "extras" : "url_h"
+            "extras" : "url_h",
+            "page" : "\(page)"
         ]
     }
 }
-
-//let additionalParams = [
-//    "lat" : selectedPin.latitude!,
-//    "lon" : selectedPin.longitude!,
-//    "per_page" : "20",
-//    "extras" : "url_h"
-//]
